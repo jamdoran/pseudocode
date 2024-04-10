@@ -1,0 +1,73 @@
+
+// Process value and determine which label to apply 
+FUNCTION GetFizzBuzz(Counter: INTEGER) RETURNS INTEGER
+
+    // Check for both first
+    IF MOD(Counter, 3) = 0 AND MOD(Counter, 5) = 0
+      THEN
+        // FizBuzz
+        RETURN 1
+      ELSE
+        // Fizz
+        IF MOD (Counter, 3) = 0
+          THEN
+            RETURN 2
+          ELSE
+            IF(MOD(Counter, 5) = 0)
+              THEN
+                // Buzz
+                RETURN 3
+              ELSE
+                // Nope
+                RETURN 4
+            ENDIF
+        ENDIF
+    ENDIF
+
+ENDFUNCTION
+
+
+
+// Print it all out, one per line
+PROCEDURE DrawArray()
+
+  FOR Counter <- 1 TO 100
+      OUTPUT Counter, " ", FizzBuzz[Counter]
+  NEXT Counter
+
+ENDPROCEDURE
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// MAIN CODE 
+//////////////////////////////////////////////////////////////////////////////
+
+// Declare variables and array
+DECLARE Counter : INTEGER
+DECLARE FizzBuzzResult : INTEGER
+DECLARE FizzBuzz : ARRAY [1:100] OF STRING
+
+
+
+// Loop 100 times
+FOR Counter <- 1 TO 100
+
+  FizzBuzzResult <- GetFizzBuzz(Counter)
+
+  CASE OF FizzBuzzResult
+    1 : FizzBuzz[Counter] <- "FizzBuzz"
+    2 : FizzBuzz[Counter] <- "Fizz"
+    3 : FizzBuzz[Counter] <- "Buzz"
+    4 : FizzBuzz[Counter] <- "Nope"
+  ENDCASE
+
+NEXT Counter
+
+CALL DrawArray()
+
+
+
+
+
+
