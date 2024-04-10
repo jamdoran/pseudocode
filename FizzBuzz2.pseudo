@@ -1,3 +1,5 @@
+// Added a few sub-routines
+
 
 // Process value and determine which label to apply 
 FUNCTION GetFizzBuzz(Counter: INTEGER) RETURNS INTEGER
