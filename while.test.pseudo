@@ -1,0 +1,13 @@
+
+DECLARE Number : INTEGER
+
+Number <- 33
+
+WHILE NOT (Number = 99) DO
+  OUTPUT "Enter Number"
+  INPUT Number
+ENDWHILE
+
+OUTPUT "DONE"
+
+

@@ -1,0 +1,11 @@
+DECLARE Age:  INTEGER
+Age <- 0
+
+REPEAT
+  OUTPUT "Enter Your Age between 4 and 40 "
+  INPUT Age
+UNTIL (Age >= 4) AND (Age <= 40)
+
+OUTPUT "Age Accepted - Goodbye!"
+
+

@@ -1,0 +1,6 @@
+FOR row <- 1 TO 5
+   FOR col <- 1 TO 3
+       OUTPUT row, ", ", col
+    NEXT col
+NEXT row
+

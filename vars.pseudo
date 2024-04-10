@@ -1,0 +1,44 @@
+// Global Variables 
+DECLARE Number1, Number2, Answer : INTEGER
+
+PROCEDURE Test()
+  // Local Variables
+  DECLARE Number3, Answer : INTEGER 
+
+  // Number 1 and Number2 are Global Variables....
+  // Setting Answer in here only sets the Local Variable.
+  // The global variable is not changed!!
+  Number1 <- 10
+  Number2 <- 20
+  Number3 <- 30
+  Answer <- Number1 + Number2 
+
+  OUTPUT "\nIn Procedure Test()"
+  OUTPUT "Number1 is now ", Number1 
+  OUTPUT "Number2 is now ", Number2 
+  OUTPUT "Number3 is now ", Number3 
+  OUTPUT "Answer  is now ", Answer
+  OUTPUT "Exit Procedure\n"
+ENDPROCEDURE
+
+
+Number1 <- 50
+Number2 <- 100
+Answer <- Number1 + Number2 
+OUTPUT "\nIn Main Code\n"
+OUTPUT "Number1 is ", Number1 
+OUTPUT "Number2 is ", Number2 
+OUTPUT "Answer  is ", Answer 
+
+OUTPUT "\nPress Enter to Continue\n"
+INPUT PressKey
+
+CALL Test
+OUTPUT "\nPress Enter to Continue\n"
+INPUT PressKey
+
+OUTPUT "\nBack In Main Code\n"
+OUTPUT "Number1 is ", Number1 
+OUTPUT "Number2 is ", Number2 
+OUTPUT "Answer  is ", Answer 
+OUTPUT "Number3 is ", Number3

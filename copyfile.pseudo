@@ -1,0 +1,21 @@
+
+DECLARE LineOfText : STRING
+
+// Define the files 
+DECLARE InFile, OutFile : STRING
+InFile <- "InFile.txt"
+OutFile <- "OutFile.txt"
+
+// Open files for read and write
+OPENFILE InFile FOR READ 
+OPENFILE OutFile FOR WRITE
+
+// Use REPEAT as we want to read at least once from the file..
+REPEAT
+    READFILE InFile, LineOfText
+    OUTPUT "Copying... ", LineOfText
+    WRITEFILE OutFile, LineOfText
+UNTIL EOF(InFile)
+
+CLOSEFILE InFile
+CLOSEFILE OutFile

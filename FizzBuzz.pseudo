@@ -1,0 +1,38 @@
+
+// Declare variables and array
+DECLARE Counter : INTEGER
+DECLARE FizzBuzz : ARRAY [1:100] OF STRING
+
+// Loop 100 times
+FOR Counter <- 1 TO 100
+
+    // Check for both first
+    IF MOD(Counter, 3) = 0 AND MOD(Counter, 5) = 0
+      THEN
+        FizzBuzz[Counter] <- "FizzBuzz"
+      ELSE
+        // Now check for Fizz
+        IF MOD (Counter, 3) = 0
+          THEN
+            FizzBuzz[Counter] <- "Fizz"
+          ELSE
+            // Now check for Buzz
+            IF(MOD(Counter, 5) = 0)
+              THEN
+                FizzBuzz[Counter] <- "Buzz"
+              ELSE
+                // Last option is Nope
+                FizzBuzz[Counter] <- "Nope"
+            ENDIF
+        ENDIF
+    ENDIF
+
+NEXT Counter
+
+
+// Print it all out, one per line
+FOR Counter <- 1 TO 100
+    OUTPUT Counter, " ", FizzBuzz[Counter]
+NEXT Counter
+
+

@@ -1,0 +1,30 @@
+
+// Create an array with 5 locations 
+DECLARE Numbers : ARRAY[1:5] OF INTEGER
+
+
+// Largest number
+DECLARE BigNum : INTEGER 
+
+
+// Loop 5 times collecting Numbers
+FOR Index <- 1 TO 5
+  OUTPUT "Enter Number ", Index
+  INPUT Numbers [Index]
+NEXT Index
+
+OUTPUT ""
+
+
+// Loop 5 times to find the largest number in the array 
+BigNum <- 0 
+FOR Index <- 1 TO 5
+  IF Numbers[Index] > BigNum
+    THEN
+      BigNum <- Numbers[Index]
+  ENDIF
+NEXT Index
+
+OUTPUT "The Largest Number was ", BigNum
+
+

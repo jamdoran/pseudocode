@@ -1,0 +1,12 @@
+DECLARE turn : STRING
+DECLARE row, col : STRING
+
+turn <- "1,2"
+
+row <- MID(turn, 1, 1)
+
+row <- row + 1
+
+OUTPUT row 
+
+

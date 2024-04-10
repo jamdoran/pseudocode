@@ -1,0 +1,17 @@
+DECLARE Count, Volume, Maximum : INTEGER
+
+Count <- 0
+Volume <- 0
+Maximum <- 0
+
+
+PROCEDURE Calc(cnt : INTEGER, vol: INTEGER, max : INTEGER)
+	DECLARE Volume : REAL
+	Volume <- cnt * max 
+	OUTPUT "Volume is ", Volume
+ENDPROCEDURE
+
+
+CALL Calc(1,2,3)
+OUTPUT "Volume is ", Volume
+

@@ -1,0 +1,16 @@
+DECLARE LineOfText : STRING
+
+// Define the files 
+DECLARE OutFile : STRING
+OutFile <- "SimpleFile.txt"
+
+// Open files for WRITE
+OPENFILE OutFile FOR WRITE
+
+OUTPUT "Enter text to write to file"
+INPUT LineOfText
+
+WRITEFILE OutFile, LineOfText
+
+CLOSEFILE OutFile
+

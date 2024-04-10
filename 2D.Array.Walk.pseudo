@@ -1,0 +1,21 @@
+
+// Declare the array - 3 ROWS and 3 COLUMNS
+DECLARE Classes : ARRAY[1:3, 1:3] OF STRING
+
+OUTPUT "\nLets walk through a 2D Array with 3 Rows and 3 Columns\n"
+// The first loop will count ROWS
+FOR row <- 1 TO 3
+
+   // The second loop will count COLUMNS
+   FOR column <- 1 TO 3
+      OUTPUT "Row ", row, " Column ", column 
+      INPUT PressKey
+    NEXT column 
+
+NEXT row
+
+
+// How would we navigate the array by COLUMN rather than ROW ?
+// Go down Column 1 then down Column 2 etc.
+
+

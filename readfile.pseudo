@@ -1,0 +1,16 @@
+
+DECLARE LineOfText, PressKey : STRING
+
+OPENFILE "inFile.txt" FOR READ 
+
+REPEAT
+    READFILE "inFile.txt", LineOfText
+    OUTPUT LineOfText
+UNTIL LENGTH(LineOfText) = 0
+
+CLOSEFILE "inFile.txt"
+
+
+
+
+

@@ -1,0 +1,36 @@
+DECLARE  StudentName : ARRAY[1:10] OF STRING
+DECLARE ClassSize, Counter : INTEGER
+
+ClassSize <- 6
+Counter <- 1 
+
+// Load some sample data into the array
+StudentName[1] <- "Paul"
+StudentName[2] <- "Robert"
+StudentName[3] <- "Bob"
+StudentName[4] <- "Sarah"
+StudentName[5] <- "Cooper"
+StudentName[6] <- "John"
+
+OUTPUT "Enter name to find " 
+INPUT Name  
+
+// Set FOUND to False
+Found <- FALSE  
+
+REPEAT  
+    IF Name = StudentName[Counter]
+      THEN  
+        Found <- TRUE 
+      ELSE
+        Counter <- Counter + 1 
+      ENDIF  
+
+UNTIL Found OR (Counter > ClassSize) 
+
+IF Found 
+    THEN 
+      OUTPUT Name, " found at position ", Counter, " in the list." 
+    ELSE  
+      OUTPUT Name, " not found." 
+ENDIF

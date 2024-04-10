@@ -1,0 +1,8 @@
+DECLARE Finished : BOOLEAN
+
+Finished <- FALSE
+
+IF NOT Finished THEN
+    OUTPUT "Not Finished"
+ENDIF
+

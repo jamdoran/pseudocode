@@ -1,0 +1,21 @@
+
+// Create an array with 10 locations 
+DECLARE StudentNames : ARRAY[1:10] OF STRING
+
+// Loop 10 times collecting student names
+FOR StudentNum <- 1 TO 10
+  OUTPUT "Enter Student Name with Student ID ", StudentNum
+  INPUT StudentNames[StudentNum]
+NEXT StudentNum
+
+OUTPUT ""
+OUTPUT ""
+
+// Loop 10 times printing out the student numbers and names 
+FOR Count <- 1 TO 10
+  OUTPUT "Student Number ", Count, " - ", StudentNames[Count]
+NEXT Count
+
+OUTPUT ""
+OUTPUT ""
+

@@ -1,0 +1,26 @@
+
+DECLARE PassMarks : ARRAY[0:7] OF INTEGER
+DECLARE Index, Value : INTEGER
+
+
+
+// A passmark is 50 points - find all the students who passed
+// Count the student and copy their result into the PassMarks Array
+// At the end output the number of students who passed
+//
+// Values in Data[58, 40, 67, 85, 12, 13, 75, 82]
+
+// Index of the PassMarks array, start at 0
+Index <- 0
+
+FOR Count <- 0 TO 7
+    INPUT Value
+    IF Value > 50
+      THEN
+        PassMarks[Index] <- Value
+        Index <- Index + 1
+    ENDIF
+NEXT Count
+
+OUTPUT "Number passed = ", Index
+

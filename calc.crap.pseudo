@@ -1,0 +1,20 @@
+INPUT Number1
+INPUT Number2
+INPUT Sign 
+
+WHILE Number <> 0
+    IF Sign = '+' THEN Answer <- Number1 + Number2 ENDIF
+    IF Sign = '-' THEN Answer <- Number1 - Number2 ENDIF
+    IF Sign = '*' THEN Answer <- Number1 * Number2 ENDIF
+    IF Sign = '/' THEN Answer <- Number1 / Number2 ENDIF
+    IF Sign <> '/' AND Sign <> '*' AND Sign <> '-' AND Sign <> '+'
+        THEN Answer <- 0 
+    ENDIF
+
+    IF Answer <> 0 THEN OUTPUT Answer ENDIF
+    
+    INPUT Number1, Number2, Sign 
+
+ENDWHILE
+
+

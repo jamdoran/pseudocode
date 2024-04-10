@@ -1,0 +1,15 @@
+
+DECLARE Number : INTEGER
+Number <- 0
+
+REPEAT
+  OUTPUT "Enter Number (99 to quit) "
+  INPUT Number
+UNTIL Number = 99
+
+
+//REPEAT
+//  OUTPUT "Please enter the password"
+//  INPUT Password
+//UNTIL Password = "Secret"
+

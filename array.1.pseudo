@@ -1,0 +1,6 @@
+DECLARE Students : ARRAY[1:9] OF STRING
+
+FOR StudentNum <- 1 TO 9
+  OUTPUT "Enter name of Student ", StudentNum
+  INPUT Students[StudentNum]
+NEXT StudentNum

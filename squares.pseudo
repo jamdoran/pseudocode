@@ -1,0 +1,10 @@
+
+DECLARE Squares : ARRAY[1:8] OF INTEGER
+
+FOR Num <- 1 TO 8
+  Squares[Num] <- Num * Num
+NEXT Num
+
+FOR Num <- 1 TO 8
+  OUTPUT Num, " squared is ", Squares[Num]
+NEXT Num

@@ -1,0 +1,269 @@
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Ignore this
+// Interpreter has not implemented SUBSTRING
+FUNCTION SUBSTRING(str : STRING, start : INTEGER, length : INTEGER) RETURNS STRING
+    RETURN MID(str, start, length)
+ENDFUNCTION
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Using a CHAR Array to hold symbols
+DECLARE GameGrid  : ARRAY[1:3, 1:3] OF CHAR
+
+// Hold the players names and Symbol choices in a pair of 1D Arrays 
+// Array[CurrentPlayer] can always access the correct name or symbol 
+DECLARE PlayerNames : ARRAY [1:2] OF STRING
+DECLARE PlayerSymbols : ARRAY [1:2] OF CHAR
+
+// Can only be 1 or 2
+DECLARE CurrentPlayer : INTEGER
+
+// Return the INTEGER equivalent of the letter
+// Most programming languages have a cast funtion to do this
+FUNCTION Char_To_Int (letter : STRING) RETURNS INTEGER
+
+    CASE OF letter
+        "1" : RETURN 1
+        "2" : RETURN 2
+        "3" : RETURN 3
+        OTHERWISE : RETURN -1 
+    ENDCASE 
+
+ENDFUNCTION 
+
+
+// Brute forcing this one
+// Must be a typo in there somewhere.....
+FUNCTION CheckForWinner() RETURNS BOOLEAN 
+
+    // Check for vertical win ^
+    IF (GameGrid[1,1] = 'X' AND GameGrid[2,1] = 'X' AND GameGrid[3,1] = 'X') OR (GameGrid[1,2] = 'X' AND GameGrid[2,2] = 'X' AND GameGrid[3,2] = 'X') OR (GameGrid[1,3] = 'X' AND GameGrid[2,3] = 'X' AND GameGrid[3,3] = 'X')
+      THEN
+        RETURN TRUE
+    ENDIF 
+    IF (GameGrid[1,1] = 'O' AND GameGrid[2,1] = 'O' AND GameGrid[3,1] = 'O') OR (GameGrid[1,2] = 'O' AND GameGrid[2,2] = 'O' AND GameGrid[3,2] = 'O') OR (GameGrid[1,3] = 'O' AND GameGrid[2,3] = 'O' AND GameGrid[3,3] = 'O')
+      THEN
+        RETURN TRUE
+    ENDIF 
+
+    // Check for a horizontal win <-->
+    IF (GameGrid[1,1] = 'X' AND GameGrid[1,2] = 'X' AND GameGrid[1,3] = 'X') OR (GameGrid[2,1] = 'X' AND GameGrid[2,2] = 'X' AND GameGrid[2,3] = 'X') OR (GameGrid[3,1] = 'X' AND GameGrid[3,2] = 'X' AND GameGrid[3,3] = 'X')
+      THEN
+        RETURN TRUE
+    ENDIF 
+    IF (GameGrid[1,1] = 'O' AND GameGrid[1,2] = 'O' AND GameGrid[1,3] = 'O') OR (GameGrid[2,1] = 'O' AND GameGrid[2,2] = 'O' AND GameGrid[2,3] = 'O') OR (GameGrid[3,1] = 'O' AND GameGrid[3,2] = 'O' AND GameGrid[3,3] = 'O')
+      THEN
+        RETURN TRUE
+    ENDIF 
+
+    // Check for a diagonal win \ /
+    IF (GameGrid[1,1] = 'X' AND GameGrid[2,2] = 'X' AND GameGrid[3,3] = 'X') OR (GameGrid[3,1] = 'X' AND GameGrid[2,2] = 'X' AND GameGrid[1,3] = 'X')
+      THEN
+        RETURN TRUE
+    ENDIF 
+    IF (GameGrid[1,1] = 'O' AND GameGrid[2,2] = 'O' AND GameGrid[3,3] = 'O') OR (GameGrid[3,1] = 'O' AND GameGrid[2,2] = 'O' AND GameGrid[1,3] = 'O')
+      THEN
+        RETURN TRUE
+    ENDIF
+
+    RETURN FALSE
+
+ENDFUNCTION
+
+
+// Scan the GameGrid for unused squares.  If there are none, we have a draw
+FUNCTION CheckForDraw() RETURNS BOOLEAN 
+    DECLARE UnusedSquareCount : INTEGER
+
+    FOR row <- 1 TO 3
+        FOR col <- 1 TO 3
+          IF GameGrid[row, col] = '-'
+            THEN
+              RETURN FALSE
+          ENDIF         
+        NEXT col
+    NEXT row
+
+    RETURN TRUE
+
+ENDFUNCTION
+
+
+// Write the players symbol to the GameGrid
+PROCEDURE UpdateGameGrid(row : INTEGER, col : INTEGER, player : INTEGER)
+
+    GameGrid[row, col] <- PlayerSymbols[player]
+
+ENDPROCEDURE
+
+
+// Check the Selected GameGridSquare is empty 
+FUNCTION GameGridSquareEmpty(row : INTEGER, col : INTEGER) RETURNS BOOLEAN
+
+    IF GameGrid[row, col] = '-'
+      THEN 
+        RETURN TRUE
+    ENDIF 
+
+    RETURN FALSE
+
+ENDFUNCTION
+
+
+// Initialise the Game GameGrid.  '-' signifies an unused grid square.
+PROCEDURE InitGameGrid()
+
+    FOR row <- 1 TO 3
+        FOR col <- 1 TO 3
+            GameGrid[row, col] <- '-'
+        NEXT col
+    NEXT row
+
+ENDPROCEDURE
+
+
+// Get player details
+PROCEDURE GetPlayerDetails ()
+
+    DECLARE SymbolInput : CHAR
+
+    OUTPUT "Player 1 : Enter your name"
+    INPUT PlayerNames[1]
+
+    REPEAT 
+        OUTPUT "Player 2 : Choose X or O"
+        INPUT SymbolInput
+    UNTIL SymbolInput = 'X' OR SymbolInput = 'O'
+
+    PlayerSymbols[1] <- SymbolInput
+
+    OUTPUT " "
+    OUTPUT "Player 2 : Enter your name"
+    INPUT PlayerNames[2]
+
+    // Give Player 2 the other symbol
+    CASE OF SymbolInput
+        'X' : PlayerSymbols[2] <- 'O'
+        'O' : PlayerSymbols[2] <- 'X'
+    ENDCASE 
+
+    OUTPUT "Player 2 will play as ", PlayerSymbols[2], "\n"
+
+ENDPROCEDURE
+
+
+// Return the next player
+FUNCTION NextPlayer (Player: INTEGER) RETURNS INTEGER
+  IF Player = 1
+    THEN 
+      RETURN 2
+    ELSE
+      RETURN 1
+  ENDIF
+ENDFUNCTION
+
+
+// User selects a grid to place their symbol 
+PROCEDURE TakeTurn(Player : INTEGER)
+    DECLARE GameGridSquare : STRING
+    DECLARE row, col : INTEGER
+    DECLARE UpdateComplete : BOOLEAN 
+
+    UpdateComplete <- FALSE 
+    REPEAT 
+        OUTPUT " "
+        OUTPUT PlayerNames[Player], "'s turn !"
+        OUTPUT "Choose a GameGrid Square"
+        INPUT GameGridSquare
+
+        row <- Char_To_Int(SUBSTRING(GameGridSquare, 1, 1))
+        col <- Char_To_Int(SUBSTRING(GameGridSquare, 3, 1))
+
+        // row or col will be set to -1 if an invalid entry is detected
+        // so check for values < 0 in either
+        IF (row >0 ) AND (col >0)
+          THEN 
+            IF GameGridSquareEmpty(row, col)
+            THEN 
+                CALL UpdateGameGrid(row, col, CurrentPlayer)
+                UpdateComplete <- TRUE
+            ELSE
+                OUTPUT "That Square is USED - Try Again !"
+            ENDIF 
+          ELSE
+            OUTPUT "Invalid Entry - Input row,col exactly, no spaces etc."
+        ENDIF 
+
+    UNTIL UpdateComplete
+
+ENDPROCEDURE
+
+
+// There's no nice way to do this 
+// More PseudoCode brute force
+PROCEDURE DrawGameGrid()
+
+    DECLARE row, col : INTEGER 
+
+    OUTPUT " "
+    OUTPUT "   1 2 3"
+    OUTPUT "1  ", GameGrid[1,1], " ", GameGrid[1,2], " ", GameGrid[1,3]
+    OUTPUT "2  ", GameGrid[2,1], " ", GameGrid[2,2], " ", GameGrid[2,3]
+    OUTPUT "3  ", GameGrid[3,1], " ", GameGrid[3,2], " ", GameGrid[3,3]
+    OUTPUT " "
+
+ENDPROCEDURE
+
+PROCEDURE Welcome()
+
+OUTPUT "/////////////////////////////////"
+OUTPUT "/ Welcome to Pseudo TIC TAC TOE /"
+OUTPUT "/////////////////////////////////"
+OUTPUT ""
+
+ENDPROCEDURE
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Main Code
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DECLARE WIN, DRAW : BOOLEAN
+
+// Initialise the Game Grid to all '-' 
+CALL InitGameGrid
+
+// Start with Player 1
+CurrentPlayer <- 1
+
+// Say Hello 
+CALL Welcome()
+
+// Get the players details and symbol choices 
+CALL GetPlayerDetails()
+
+// Draw the blank grid to start
+CALL DrawGameGrid()
+
+REPEAT 
+
+    CALL TakeTurn(CurrentPlayer)
+    CALL DrawGameGrid()
+
+    WIN  <- CheckForWinner()
+    IF WIN 
+      THEN 
+        OUTPUT "\nGAME OVER !!\n"
+        OUTPUT PlayerNames[CurrentPlayer], " is the WINNER !!!\n\n"
+    ENDIF 
+
+    DRAW <- CheckForDraw()
+    IF DRAW 
+      THEN
+        OUTPUT "GAME WAS A DRAW !"
+    ENDIF
+
+    CurrentPlayer <- NextPlayer(CurrentPlayer)
+
+UNTIL ( WIN OR DRAW )
+
+

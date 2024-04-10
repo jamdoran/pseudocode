@@ -1,0 +1,17 @@
+
+FUNCTION NextPlayer (Player: INTEGER) RETURNS INTEGER
+  IF Player = 1
+    THEN 
+      RETURN 2
+    ELSE
+      RETURN 1
+  
+  ENDIF
+ENDFUNCTION
+
+
+
+OUTPUT NextPlayer (1)
+OUTPUT NextPlayer (2)
+
+

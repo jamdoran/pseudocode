@@ -1,0 +1,52 @@
+DECLARE Temperature : ARRAY [1:10 ] OF INTEGER
+DECLARE TempVar : INTEGER
+DECLARE Swap : BOOLEAN
+DECLARE First, Last : INTEGER 
+
+First <- 1
+Last <- 10 
+
+// Load the array with random data
+Temperature[1] <- 99
+Temperature[2] <- 12
+Temperature[3] <- 32
+Temperature[4] <- 39
+Temperature[5] <- 76
+Temperature[6] <- 11
+Temperature[7] <- 80
+Temperature[8] <- 3
+Temperature[9] <- 79
+Temperature[10] <- 1
+
+
+OUTPUT "Random List"
+OUTPUT Temperature[1], ", ", Temperature[2], ", ", Temperature[3], ", ",Temperature[4], ", ",Temperature[5], ", ",Temperature[6], ", ",Temperature[7], ", ",Temperature[8], ", ",Temperature[9], ", ",Temperature[10]
+
+
+
+REPEAT 
+    Swap <- FALSE
+    FOR Index <- First TO (Last - 1)
+
+        IF Temperature[Index] > Temperature[Index + 1] 
+            THEN 
+              OUTPUT "Swapping ", Temperature[Index] , " and ", Temperature[Index + 1]
+
+              TempVar <- Temperature[Index] 
+              Temperature[Index] <- Temperature[Index + 1] 
+              Temperature[Index + 1] <- TempVar  
+              Swap <- TRUE 
+
+              OUTPUT Temperature[1], ", ", Temperature[2], ", ", Temperature[3], ", ",Temperature[4], ", ",Temperature[5], ", ",Temperature[6], ", ",Temperature[7], ", ",Temperature[8], ", ",Temperature[9], ", ",Temperature[10]
+        ENDIF
+    NEXT Index  
+    OUTPUT "Pass Complete\n"
+    Last <- Last - 1 
+
+UNTIL (NOT Swap) OR Last = 1
+
+
+// OUTPUT "\n\nSORTED List"
+// OUTPUT Temperature[1], ", ", Temperature[2], ", ", Temperature[3], ", ",Temperature[4], ", ",Temperature[5], ", ",Temperature[6], ", ",Temperature[7], ", ",Temperature[8], ", ",Temperature[9], ", ",Temperature[10]
+// OUTPUT " "
+

@@ -1,0 +1,52 @@
+
+DECLARE Data, PassMarks : ARRAY[0:7] OF INTEGER
+DECLARE Index : INTEGER
+
+//Dump some data in the Data Array 
+Data[0] <- 58
+Data[1] <- 40
+Data[2] <- 67
+Data[3] <- 85
+Data[4] <- 12
+Data[5] <- 13
+Data[6] <- 75
+Data[7] <- 82
+
+// Index of the PassMarks array, start at 0
+Index <- 0
+
+
+// A passmark is 50 points - find all the students who passed
+// Count the student and copy their result into the PassMarks Array
+// At the end output the number of students who passed
+//
+// Values in Data[58, 40, 67, 85, 12, 13, 75, 82]
+
+FOR Count <- 0 TO 7
+    IF Data[Count] > 50
+      THEN
+        PassMarks[Index] <- Data[Count]
+        Index <- Index + 1
+    ENDIF
+NEXT Count
+
+OUTPUT "Number passed = ", Index
+
+//Program to output the largest of the two numbers
+DECLARE number1 : INTEGER
+DECLARE number2 : INTEGER
+
+OUTPUT "Input Number 1 "
+INPUT number1
+
+OUTPUT "Input Number 2 "
+INPUT number2
+
+IF number1 > number2
+    THEN
+      OUTPUT "The largest number is ", number1
+    ELSE
+      OUTPUT "The largest number is ", number2
+ENDIF
+
+

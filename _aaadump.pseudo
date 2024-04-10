@@ -1,0 +1,92 @@
+DECLARE StudentCount, ClassCount : INTEGER
+DECLARE ExitDataGathering : BOOLEAN
+DECLARE StudentsEntered : INTEGER
+
+// Procedure to enter Student names, check that XXX has not been entered on the first try and set the array value
+//
+// Two Conditions to deal with :
+// 1. MUST enter at least one stident name 
+// 2. MUST exit when XXX is entered 
+//
+PROCEDURE GetStudentName (StudentCount : INTEGER)
+  DECLARE ExitProcedure : BOOLEAN 
+  DECLARE StudentName : STRING
+
+  REPEAT
+    ExitProcedure <- TRUE
+    ExitDataGathering <- FALSE 
+
+    OUTPUT "Enter Name for Student ", StudentCount
+    INPUT StudentName
+
+    IF (StudentName = "XXX")
+      THEN
+        IF StudentCount = 1
+          THEN
+            ExitProcedure <- FALSE
+        ELSE
+            ExitDataGathering <- TRUE
+            ExitProcedure <- TRUE
+        ENDIF
+      ELSE
+        StudentNames [StudentCount] <- StudentName
+        ExitProcedure <- TRUE
+    ENDIF
+
+  UNTIL ExitProcedure = TRUE
+
+ENDPROCEDURE
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Main Program
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Enter the number of students and the number of classes
+OUTPUT "Enter Number of Students"
+INPUT StudentCount
+OUTPUT "Enter Number of Classes"
+INPUT ClassCount
+OUTPUT " "
+
+
+// Important : Declare the Arrays after you have entered the StudentCount and ClassCount
+// as those variables are used to size the arrays 
+DECLARE StudentNames : ARRAY [1: StudentCount] OF STRING
+DECLARE Grades : ARRAY [1: StudentCount, 1: ClassCount] OF INTEGER
+
+// Set StudentsEntered to 1 to start
+StudentsEntered <- 1
+
+
+REPEAT
+
+  CALL GetStudentName (StudentsEntered)
+
+  IF ExitDataGathering = FALSE
+    THEN
+      FOR enterGrades <- 1 TO ClassCount
+        OUTPUT "Enter Grade for Class ", enterGrades
+        INPUT Grades [StudentsEntered, enterGrades]
+      NEXT enterGrades
+
+      StudentsEntered <- StudentsEntered + 1
+  ENDIF 
+
+UNTIL (StudentsEntered > StudentCount) OR ExitDataGathering = TRUE
+
+OUTPUT "\n\nStudent Grades\n "
+
+// Loop through both arrays printing out the student names and data
+// Leave a blank line between students for neatness...
+// (StudentsEntered -1) because we don't want to count the iteration where XXX was entered !
+FOR student <- 1 TO (StudentsEntered -1)
+    OUTPUT "Student ", student, " : ", StudentNames[student]
+  FOR grade <- 1 TO ClassCount
+    OUTPUT "Grade ", grade, " : ", Grades[student, grade]
+  NEXT grade
+
+  OUTPUT " "
+NEXT student

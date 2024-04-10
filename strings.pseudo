@@ -1,0 +1,11 @@
+DECLARE StrLen : INTEGER
+DECLARE MyString : STRING 
+MyString <- "Hello World"
+
+
+OUTPUT "The Length is ", LENGTH(MyString)
+OUTPUT "The 4 characters starting at position 6 are ", SUBSTRING(MyString, 6, 4)
+OUTPUT "The 3 characters starting at position 1 are ", SUBSTRING(MyString, 3, 1)
+OUTPUT "The 10 characters starting at position 7 are ", SUBSTRING(MyString, 10, 7)
+OUTPUT "The 2 characters starting at position 3 are ", SUBSTRING(MyString, 2, 3)
+

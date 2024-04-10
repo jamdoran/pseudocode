@@ -1,0 +1,43 @@
+
+// Declare variables 
+DECLARE Number1, Number2, Answer : INTEGER
+DECLARE Sign : CHAR
+
+// Function to validate if the Sign is acceptable
+FUNCTION SignOK (Sign : CHAR) RETURNS BOOLEAN
+
+    CASE OF Sign
+        '+' : RETURN TRUE
+        '-' : RETURN TRUE
+        '/' : RETURN TRUE
+        '*' : RETURN TRUE
+        OTHERWISE : RETURN FALSE
+    ENDCASE 
+
+ENDFUNCTION 
+
+
+REPEAT 
+    // Accept data from the user - make sure it is OK before continuing
+    OUTPUT "\nWelcome to Pseudo Calc\n"
+    OUTPUT "Enter First Number"
+    INPUT Number1
+    OUTPUT "Enter Sign"
+    INPUT Sign
+    OUTPUT "Enter Second Number"
+    INPUT Number2
+
+UNTIL (Number1 > 0 ) AND (Number2 > 0) AND SignOK(Sign)
+
+// Do the maths
+// No need for an OTHERWISE Clause here - WHY ?
+CASE OF Sign
+    '+' : Answer <- Number1 + Number2
+    '-' : Answer <- Number1 - Number2
+    '/' : Answer <- DIV(Number1, Number2)
+    '*' : Answer <- Number1 * Number2
+ENDCASE 
+
+// Output the result
+OUTPUT "\n", Number1 , " ", Sign, " ", Number2, " = ", Answer, "\n"
+

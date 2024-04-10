@@ -1,0 +1,15 @@
+
+// Loop to validate user input.
+// User must enter an age between 4 and 40. Program will loop until valid data is entered
+
+DECLARE Age : INTEGER
+Age <- 33
+
+WHILE (Age < 4) OR (Age > 40)
+  OUTPUT Age
+  INPUT PressKey 
+  OUTPUT "Enter Your Age between 4 and 40 "
+  INPUT Age
+ENDWHILE
+
+OUTPUT "Age Accepted - Goodbye!"

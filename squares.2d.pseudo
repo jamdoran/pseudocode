@@ -1,0 +1,20 @@
+// GridSize as a constant 
+CONSTANT GridSize <- 3
+
+// Declare the 2D array to hold the squares
+DECLARE Squares : ARRAY[1:GridSize, 1:GridSize] OF INTEGER
+
+// Load the data
+FOR Row <- 1 TO GridSize
+    FOR Col <- 1 TO GridSize
+      Squares[Row, Col] <- ((Row + Col) * (Row + Col))
+    NEXT Col
+NEXT Row
+
+
+// Print out the data 
+FOR Row <- 1 TO GridSize
+  OUTPUT " ", Squares[Row, 1], " ", Squares[Row, 2], " ", Squares[Row, 3]
+NEXT Row
+
+

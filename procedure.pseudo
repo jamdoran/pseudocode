@@ -1,0 +1,13 @@
+// Procedures at top of code
+
+PROCEDURE Line(Size : INTEGER)
+    DECLARE Length : INTEGER
+    FOR Length <- 1 TO Size
+        OUTPUT '-'
+    NEXT Length
+ENDPROCEDURE
+
+
+//Main Program 
+CALL Line(10)
+

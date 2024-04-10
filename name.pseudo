@@ -1,0 +1,3 @@
+// hello
+PRINT "Input your age: "
+INPUT age
