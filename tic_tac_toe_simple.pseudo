@@ -1,0 +1,144 @@
+
+
+DECLARE Grid  : ARRAY[1:3, 1:3] OF CHAR
+DECLARE X, Y, Player : INTEGER
+
+DECLARE Symbol : ARRAY[1:2] OF CHAR
+Symbol[1] <- 'X'
+Symbol[2] <- 'O'
+
+DECLARE WIN, DRAW : BOOLEAN
+
+PROCEDURE PlayerTurn
+
+    REPEAT
+        OUTPUT "Player - ", Player
+        OUTPUT "Enter X Co-Ordinate"
+        INPUT X
+        OUTPUT "Enter Y Co-Ordinate"
+        INPUT Y
+    UNTIL CheckGridFree()
+
+    CALL UpdateGrid()
+
+ENDPROCEDURE
+
+FUNCTION CheckGridFree() RETURNS BOOLEAN
+
+    IF Grid[X,Y] = 'X' OR Grid[X,Y] ='O'
+        THEN
+            RETURN FALSE
+        ELSE
+            RETURN TRUE
+    ENDIF
+
+ENDFUNCTION
+
+PROCEDURE UpdateGrid()
+    Grid[X,Y] <- Symbol[Player]
+ENDPROCEDURE
+
+PROCEDURE InitGrid()
+    FOR row <- 1 TO 3
+        FOR col <- 1 TO 3
+            Grid[row, col] <- '-'
+        NEXT col
+    NEXT row
+
+ENDPROCEDURE
+
+PROCEDURE PrintGrid()
+    OUTPUT " "
+    FOR row <- 1 TO 3
+        OUTPUT Grid[row,1], " ", Grid[row,2], " ", Grid[row,3]
+    NEXT row
+    OUTPUT " "
+ENDPROCEDURE
+
+FUNCTION CheckWin() RETURNS BOOLEAN
+
+    // Check for vertical win ^
+    IF (Grid[1,1] = 'X' AND Grid[2,1] = 'X' AND Grid[3,1] = 'X') OR (Grid[1,2] = 'X' AND Grid[2,2] = 'X' AND Grid[3,2] = 'X') OR (Grid[1,3] = 'X' AND Grid[2,3] = 'X' AND Grid[3,3] = 'X')
+      THEN
+        RETURN TRUE
+    ENDIF 
+    IF (Grid[1,1] = 'O' AND Grid[2,1] = 'O' AND Grid[3,1] = 'O') OR (Grid[1,2] = 'O' AND Grid[2,2] = 'O' AND Grid[3,2] = 'O') OR (Grid[1,3] = 'O' AND Grid[2,3] = 'O' AND Grid[3,3] = 'O')
+      THEN
+        RETURN TRUE
+    ENDIF 
+
+    // Check for a horizontal win <-->
+    IF (Grid[1,1] = 'X' AND Grid[1,2] = 'X' AND Grid[1,3] = 'X') OR (Grid[2,1] = 'X' AND Grid[2,2] = 'X' AND Grid[2,3] = 'X') OR (Grid[3,1] = 'X' AND Grid[3,2] = 'X' AND Grid[3,3] = 'X')
+      THEN
+        RETURN TRUE
+    ENDIF 
+    IF (Grid[1,1] = 'O' AND Grid[1,2] = 'O' AND Grid[1,3] = 'O') OR (Grid[2,1] = 'O' AND Grid[2,2] = 'O' AND Grid[2,3] = 'O') OR (Grid[3,1] = 'O' AND Grid[3,2] = 'O' AND Grid[3,3] = 'O')
+      THEN
+        RETURN TRUE
+    ENDIF 
+
+    // Check for a diagonal win \ /
+    IF (Grid[1,1] = 'X' AND Grid[2,2] = 'X' AND Grid[3,3] = 'X') OR (Grid[3,1] = 'X' AND Grid[2,2] = 'X' AND Grid[1,3] = 'X')
+      THEN
+        RETURN TRUE
+    ENDIF 
+    IF (Grid[1,1] = 'O' AND Grid[2,2] = 'O' AND Grid[3,3] = 'O') OR (Grid[3,1] = 'O' AND Grid[2,2] = 'O' AND Grid[1,3] = 'O')
+      THEN
+        RETURN TRUE
+    ENDIF
+
+    RETURN FALSE
+
+ENDFUNCTION
+
+
+FUNCTION CheckDraw() RETURNS BOOLEAN
+
+    FOR row <- 1 TO 3
+        FOR col <- 1 TO 3
+            IF Grid[row, col] = '-'
+                THEN 
+                    RETURN FALSE
+            ENDIF
+        NEXT col
+    NEXT row
+
+    RETURN TRUE
+
+ENDFUNCTION
+
+FUNCTION FlipPlayer(Player: INTEGER) RETURNS INTEGER
+
+    IF Player = 1
+        THEN
+            RETURN 2
+        ELSE
+            RETURN 1
+    ENDIF
+
+ENDFUNCTION
+
+
+////////////////
+
+Player <- 2
+
+CALL InitGrid
+REPEAT 
+    Player <- FlipPlayer(Player)
+
+    CALL PlayerTurn
+
+    DRAW <- CheckDraw()
+    WIN <- CheckWin()
+
+    CALL PrintGrid()
+
+UNTIL WIN OR DRAW
+
+IF WIN
+    THEN 
+        OUTPUT "WIN"
+    ELSE
+        OUTPUT "DRAW"
+ENDIF
