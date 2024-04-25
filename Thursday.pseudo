@@ -11,6 +11,10 @@ DECLARE StudentMark : ARRAY [1:ClassSize, 1:SubjectNo] OF INTEGER
 //
 // Dump some data into the array 
 //
+// NOTE -   THIS SECTION IS NOT NEEDED TO ANSWER THE EXAM QUESTION
+//          WE WANTED TO RUN THE CODE TO TEST IT, SO WE HAD TO ADD SOME REAL DATA !
+//
+// 
 StudentName[1] <- "Ada LoveLace"
 StudentName[2] <- "Alan Turing"
 StudentName[3] <- "Grace Hopper"
