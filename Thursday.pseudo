@@ -1,0 +1,113 @@
+// Declare Variables
+DECLARE ClassSize : INTEGER
+DECLARE SubjectNo : INTEGER
+ClassSize <- 5
+SubjectNo <- 3
+
+DECLARE StudentName : ARRAY [1:ClassSize] OF STRING
+DECLARE StudentMark : ARRAY [1:ClassSize, 1:SubjectNo] OF INTEGER
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Dump some data into the array 
+//
+StudentName[1] <- "Ada LoveLace"
+StudentName[2] <- "Alan Turing"
+StudentName[3] <- "Grace Hopper"
+StudentName[4] <- "Tim Berners-Lee"
+StudentName[5] <- "Andrew Ng"
+
+StudentMark[1,1] <- 10
+StudentMark[1,2] <- 90
+StudentMark[1,3] <- 3
+StudentMark[2,1] <- 88
+StudentMark[2,2] <- 12
+StudentMark[2,3] <- 75
+StudentMark[3,1] <- 100
+StudentMark[3,2] <- 32
+StudentMark[3,3] <- 55
+StudentMark[4,1] <- 100
+StudentMark[4,2] <- 88
+StudentMark[4,3] <- 34
+StudentMark[5,1] <- 29
+StudentMark[5,2] <- 91
+StudentMark[5,3] <- 57
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+// Declare Variables
+DECLARE Total : INTEGER
+DECLARE Average : INTEGER
+DECLARE Grade : STRING
+
+DECLARE TotalFails : INTEGER
+DECLARE TotalMerits : INTEGER
+DECLARE TotalPasses : INTEGER
+DECLARE TotalDistinctions : INTEGER
+
+// Update Grade Totals 
+PROCEDURE UpdateGradeTotals(Grade : STRING)
+
+    CASE OF Grade
+        "Pass" : TotalPasses <- TotalPasses + 1
+        "Fail" : TotalFails <- TotalFails + 1
+        "Merit" : TotalMerits <- TotalMerits + 1
+        "Distinction" : TotalDistinctions <- TotalDistinctions + 1
+    ENDCASE
+
+ENDPROCEDURE
+
+
+
+// Work out the grade from the Average mark
+FUNCTION GetGrade(Avg : INTEGER) RETURNS STRING
+
+    IF Avg < 40
+        THEN
+            RETURN "Fail"
+        ELSE
+            IF Avg >= 40 AND Avg < 55
+                THEN
+                    RETURN "Pass"
+                ELSE
+                    IF Avg >= 55 AND Avg < 70
+                        THEN
+                            RETURN "Merit"
+                    ENDIF
+            ENDIF
+    ENDIF
+
+    RETURN "Distinction"
+
+
+ENDFUNCTION
+
+
+
+// Main Program
+FOR Student <- 1 TO ClassSize
+    Total <- 0
+
+    FOR Subject <- 1 TO SubjectNo
+        Total <- Total + StudentMark[Student, Subject]
+    NEXT Subject
+
+    Average <- DIV(Total, SubjectNo)
+    Grade <- GetGrade(Average)
+
+    OUTPUT "Name    - ", StudentName[Student]
+    OUTPUT "Total   - ", Total
+    OUTPUT "Average - ", Average
+    OUTPUT "Grade   - ", Grade
+    OUTPUT " "
+
+    CALL UpdateGradeTotals(Grade)
+
+NEXT Student 
+
+OUTPUT "Number Passes       - ", TotalPasses
+OUTPUT "Number Fails        - ", TotalFails
+OUTPUT "Number Merits       - ", TotalMerits
+OUTPUT "Number Distinctions - ", TotalDistinctions
+
+

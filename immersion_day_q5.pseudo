@@ -1,0 +1,143 @@
+
+// Declare and set these variable for number of students and number of classes-per-students
+// Set this before declaring the arrays so the values can be used to size the array
+DECLARE ClassSize, SubjectNo : INTEGER
+ClassSize <- 5
+SubjectNo <- 3
+
+DECLARE StudentName : ARRAY [1:ClassSize] OF STRING
+DECLARE StudentMark : ARRAY [1:ClassSize, 1:SubjectNo] OF INTEGER
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Dump some data into the array 
+//
+StudentName[1] <- "Ada LoveLace"
+StudentName[2] <- "Alan Turing"
+StudentName[3] <- "Grace Hopper"
+StudentName[4] <- "Tim Berners-Lee"
+StudentName[5] <- "Andrew Ng"
+
+StudentMark[1,1] <- 10
+StudentMark[1,2] <- 90
+StudentMark[1,3] <- 3
+StudentMark[2,1] <- 88
+StudentMark[2,2] <- 12
+StudentMark[2,3] <- 75
+StudentMark[3,1] <- 100
+StudentMark[3,2] <- 32
+StudentMark[3,3] <- 55
+StudentMark[4,1] <- 100
+StudentMark[4,2] <- 88
+StudentMark[4,3] <- 34
+StudentMark[5,1] <- 29
+StudentMark[5,2] <- 91
+StudentMark[5,3] <- 57
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+// Stores the total of all subjects for each student
+DECLARE TotalMarks : ARRAY [1:ClassSize] OF INTEGER
+// Stores the average of all subjects for each student
+DECLARE AverageMarks : ARRAY [1:ClassSize] OF INTEGER
+// Stores the grade given to each student
+DECLARE Grades : ARRAY [1:ClassSize] OF STRING
+
+
+// Store totals for each grade
+DECLARE TotalDistinctions : INTEGER
+DECLARE TotalMerits : INTEGER
+DECLARE TotalPasses : INTEGER
+DECLARE TotalFails : INTEGER
+
+
+// Work out the Grade from the Average
+FUNCTION GetGrade (Avg:INTEGER) RETURNS STRING
+
+    IF Avg < 40
+        THEN
+            RETURN "Fail"
+        ELSE
+            IF (Avg >=40 AND Avg < 55) 
+                THEN 
+                    RETURN "Pass"
+                ELSE
+                    IF (Avg >= 55 AND Avg < 70)
+                        THEN
+                            RETURN "Merit"
+                    ENDIF
+            ENDIF
+    ENDIF
+
+    // If we got here, then we must have a Distinction  
+    RETURN "Distinction"
+
+ENDFUNCTION 
+
+// Print out the data for each student 
+PROCEDURE PrintData ()
+    FOR Student <- 1 TO ClassSize
+        OUTPUT "Name         : ", StudentName[Student]
+        OUTPUT "Total Marks  : ", TotalMarks[Student]
+        OUTPUT "Average Mark : ", AverageMarks[Student]
+        OUTPUT "Final Grade  : ", Grades[Student]
+        OUTPUT " "
+    NEXT Student
+
+    OUTPUT "Summary Data\n"
+    OUTPUT "Total Fails        : ", TotalFails 
+    OUTPUT "Total Passes       : ", TotalPasses
+    OUTPUT "Total Merits       : ", TotalMerits
+    OUTPUT "Total Distinctions : ", TotalDistinctions 
+
+ENDPROCEDURE
+
+// Update the Grade Counters 
+PROCEDURE UpdateGradeCounters(Grade: STRING)
+
+    CASE OF Grade
+        "Fail" : TotalFails <- TotalFails + 1
+        "Pass" : TotalPasses <- TotalPasses + 1
+        "Merit" : TotalMerits <- TotalMerits + 1
+        "Distinction" : TotalDistinctions <- TotalDistinctions + 1
+    ENDCASE 
+
+ENDPROCEDURE
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Main Code
+// 
+DECLARE Total : INTEGER
+DECLARE Average : INTEGER
+DECLARE Grade : STRING
+
+// Run through the arrays and consolidate the data
+FOR Student <- 1 TO ClassSize
+    // Reset Total/Average for each student
+    Total <- 0
+    Average <- 0 
+    
+    FOR Mark <- 1 TO SubjectNo
+        // Calc total mark
+        Total <- Total + StudentMark[Student, Mark]
+    NEXT Mark
+    // Work out the grade and the average
+    Average <- DIV(Total, SubjectNo)
+    Grade <- GetGrade(Average)
+
+    // Update the arrays 
+    TotalMarks[Student] <- Total 
+    AverageMarks[Student] <- Average
+    Grades[Student] <- Grade
+
+    // Update the grade counters 
+    CALL UpdateGradeCounters(Grades[Student])
+
+NEXT Student
+
+
+// Print out all the data 
+CALL PrintData()
+
